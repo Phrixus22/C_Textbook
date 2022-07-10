@@ -1,40 +1,30 @@
 #include <stdio.h>
-
 /*
-Covering Exercises 1.8-9
-Write a program to count blanks, tabs and newlines
-Write a program to copy its input to its output
-replacing each string of one or more blanks with a single.
-Write a profram to copy its input to its output.
-Replacing tab wit \t etc..
+Exercise 1.11-12
+Bugs could be cause if word is split over two lines as it is considered a new word on a newline.
+inputs required are edge cases such as this or apostrophies. anyhting more complex than a simple word.
 */
 
 #define IN 1
 #define OUT 0
 
-main()
-{
-    int c, nb, nt, nl, state;
-    nb = nt = nl = 0;
+main(){
+    int c, nw, state, count;
+    nw = 0;
     state = OUT;
+    count = 0;
     while((c = getchar()) != EOF){
-        if(c == '\t')
-            ++nt;
-        if(c == '\n')
-            ++nl;
-        if(c == ' ')
-        {
-            if(state == OUT){
-                putchar(c);
-            }
-            state = IN;
-            ++nb;
-        }
-        else
-        {
+        if(c == ' ' || c == '\n' || c == '\t')
             state = OUT;
+        else if (state == OUT) {
+            state = IN;
+            if(count > 0)
+                putchar('\n');
             putchar(c);
-        }
+            ++nw;
+            ++count;
+        } else 
+            putchar(c);
     }
-    printf("%d %d %d\n", nb, nt, nl);
+    printf("%d\n", nw);
 }
